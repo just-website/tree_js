@@ -1,0 +1,22 @@
+@import 'symbol';
+@import 'node';
+@import 'textarea';
+@import 'tree';
+
+.wrapper {
+    border: 1px solid black;
+    margin: 50px auto;
+    min-height: 600px;
+    display: flex;
+}
+
+
+[placeholder]:empty::before {
+    content: attr(placeholder);
+    color: #555; 
+    font-style: italic;
+}
+
+button {
+    float: left;
+}

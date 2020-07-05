@@ -1,0 +1,17 @@
+{
+  "name": "tree_app",
+  "version": "1.0.0",
+  "description": "test task for love planet",
+  "main": "index.js",
+  "scripts": {
+    "start": "rollup -w -c",
+    "build": "rollup -c"
+  },
+  "keywords": [],
+  "author": "Shchukin Gleb <just-website@yandex.ru>",
+  "license": "ISC",
+  "devDependencies": {
+    "rollup": "^2.18.2",
+    "rollup-plugin-scss": "^2.5.0"
+  }
+}
