@@ -67,14 +67,6 @@ export class Tree {
 		return result;
 	}
 
-	// /**
-	//  * render
-	//  */
-	// render() {
-	// 	const nodes = this.nodes.map( node => node.toHTML()).join('');
-	// 	this.wrapper.innerHTML = createTree(nodes);
-	// }
-
 	/**
 	 * получить представление в виде html-строки 
 	 */
@@ -106,7 +98,6 @@ export class Tree {
 				const {node_id} = nodeElement.dataset;
 				const targetNode = this.getNode(this.nodes, node_id);
 				targetNode.isOpen = !targetNode.isOpen;
-				console.log({targetNode});
 				this.dispatcher.emit('tree::newData', this.nodes);
 				this.toHTML();
 			}
