@@ -1,6 +1,7 @@
+// TODO: выпилить
 export const createTree = (data = '') => {
     return `
-        <div class="tree" id="tree_view">
+        <div>
             ${data}
         </div>
     `

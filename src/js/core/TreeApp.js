@@ -20,23 +20,32 @@ export class TreeApp {
             root: this.root,
             dispatcher: this.dispatcher,
             state: this.state
-        });
+		});
+		this._initListeners();
     }
 
-    render(json) {
+	/**
+	 * Рендеринг вего приложения
+	 */
+    render() {
         try {
-            let data = {};
-            if (json) {
-                data = JSON.parse(json);
-            }
             this.root.innerHTML = `
-                ${this.textarea.toHTML(data)}
-                ${this.tree.toHTML(data)}
-            `
+                ${this.textarea.toHTML()}
+			`;
+			this.root.append(this.tree.toHTML())
         }
         catch (error) {
             console.log('Ошибка рендеринга', error);
             return error;
         }
-    }
+	}
+	
+	/**
+	 * инициализация слушателей
+	 */
+    _initListeners() {
+		this.dispatcher.subscribe('view::render', () => {
+			this.render();
+		})
+	}
 }
