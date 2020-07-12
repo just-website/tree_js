@@ -1,18 +1,15 @@
 import {createTree} from './tree.template';
 import {Node} from '../node/Node';
-import { createNode } from '../node/node.template';
 
 export class Tree {
     constructor(options) {
         this.root = options.root;
 		this.dispatcher = options.dispatcher;
-		this.nodeElementClassName = 'tree__node';
-		this.nodeSymbolClassName = 'tree__node-symbol';
 		this.wrapper = this._createWrapper();
 		this.nodes = [];
 		this.dragble = false;
 		this.createNode = this.createNode.bind(this);
-        this._initListeners();
+		this._initListeners();
     }
 
 	/**
@@ -21,15 +18,10 @@ export class Tree {
 	 * @param {object} data - узлы дерева 
 	 */
     addNodes(data) {
-        const nodes = data.map( node => {
-			if (node.children.length) {
-				node.children = node.children.map(this.createNode);
-			}
-			return this.createNode(node);
-		});
+        const nodes = data.map( this.createNode );
 		this.nodes.push(...nodes);
 		this.toHTML();
-		// this.state.nodes = this.nodes;
+		console.log(this.nodes);
 	}
 	
 	/**
@@ -37,14 +29,9 @@ export class Tree {
 	 * @param {*} targetId 
 	 */
 	createNode(data) { 
-		if (data.children.length) {
-			data.children = data.children.map(this.createNode);
-		}
 		return new Node({
 			...data, 
-			root: this.root, 
-			nodeSymbolClassName: this.nodeSymbolClassName,
-			nodeElementClassName: this.nodeElementClassName
+			// root: this.root, 
 		})
 	}
 
@@ -71,8 +58,7 @@ export class Tree {
 	 * получить представление в виде html-строки 
 	 */
     toHTML() {
-		const nodes = this.nodes.map( node => node.toHTML()).join('');
-		this.wrapper.innerHTML = createTree(nodes);
+		this.wrapper.innerHTML = createTree(this.nodes);
 		return this.wrapper;
     }
 
@@ -92,14 +78,14 @@ export class Tree {
 		});
 
 		this.root.addEventListener('click', (event) => {
-			if (event.target.closest(`.${this.nodeSymbolClassName}`))
-			{
-				const nodeElement = event.target.closest(`.${this.nodeElementClassName}`);
+			const nodeElement = event.target.closest(`.tree__node`);
+			if (nodeElement) {
 				const {node_id} = nodeElement.dataset;
 				const targetNode = this.getNode(this.nodes, node_id);
-				targetNode.isOpen = !targetNode.isOpen;
-				this.dispatcher.emit('tree::newData', this.nodes);
-				this.toHTML();
+				console.log(targetNode);
+				// targetNode.isOpen = !targetNode.isOpen;
+				// this.dispatcher.emit('tree::newData', this.nodes);
+				// this.toHTML();
 			}
 		});
 		this.dispatcher.subscribe('textarea::newData', (data) => {

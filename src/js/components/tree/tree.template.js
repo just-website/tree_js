@@ -2,7 +2,7 @@
 export const createTree = (data = '') => {
     return `
         <div>
-            ${data}
+            ${data.map( node => node.toHTML()).join('')}
         </div>
     `
 }

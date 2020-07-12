@@ -1,10 +1,24 @@
 .tree__node {
     display: flex;
     display: flex;
-    margin: 10px 5px 0 5px;
-    min-height: 25px;
+	min-height: 25px;
 }
 
 .tree__node-content {
-    cursor: grab;
+	cursor: grab;
+	border: 1px solid lightgray;
+    margin: 2px;
+    width: 100%;
+}
+
+.tree__node-property {
+	margin: 2px;
+	border: 1px solid lightgray;
+	display: flex;
+	margin-left: 20px;
+	padding: 10px;
+}
+
+.tree__node-property-value {
+	width: 100%;
 }

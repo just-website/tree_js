@@ -20,6 +20,7 @@ export class Textarea {
                 this.dispatcher.emit('textarea::newData', data);
             }
 		});
+
 		this.dispatcher.subscribe('tree::newData', (data) => {
 			const nodes = data.map(this._convertData);
 			this.root.querySelector(`.${this.contentClassName}`).textContent = JSON.stringify(nodes);
@@ -31,11 +32,8 @@ export class Textarea {
 	 * Преобразование данных, фильтрация "лишних" полей
 	 */
 	_convertData(data) {
-		let {nodeId, isOpen, content, children} = data;
-		if (children.length) {
-			children = children.map(node => this._convertData(node));
-		}
-		return {nodeId, isOpen, content, children}
+		let {nodeId, ...content} = data;
+		return {nodeId, ...content}
 	}
 
 	/**
