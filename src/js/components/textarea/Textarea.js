@@ -3,9 +3,8 @@ import {createTextarea} from './textarea.template';
 export class Textarea {
     constructor(options) {
         this.root = options.root;
-        this.dispatcher = options.dispatcher;
-        this.buttonClassName = 'textarea_button';
-		this.contentClassName = 'textarea_content';
+		this.dispatcher = options.dispatcher;
+		this.wrapper = this._createWrapper();
 		this._convertData = this._convertData.bind(this);
         this._initListeners();
     }
@@ -15,34 +14,39 @@ export class Textarea {
 	 */
     _initListeners() {
         this.root.addEventListener('click', (event) => {
-            if (event.target.closest(`.${this.buttonClassName}`)) {
-                const data = this.root.querySelector(`.${this.contentClassName}`).textContent;
+            if (event.target.closest(`.textarea_button`)) {
+                const data = this.root.querySelector(`#textarea`).textContent;
                 this.dispatcher.emit('textarea::newData', data);
             }
 		});
 
 		this.dispatcher.subscribe('tree::newData', (data) => {
 			const nodes = data.map(this._convertData);
-			this.root.querySelector(`.${this.contentClassName}`).textContent = JSON.stringify(nodes);
+			this.root.querySelector(`#textarea`).textContent = JSON.stringify(nodes);
 		});
     }
 
 
 	/**
 	 * Преобразование данных, фильтрация "лишних" полей
+	 * @todo deprecated
 	 */
 	_convertData(data) {
-		let {nodeId, ...content} = data;
-		return {nodeId, ...content}
+		return {...data}
 	}
 
 	/**
 	 * получить представление в виде html-строки 
 	 */
     toHTML() {
-        return createTextarea({
-            buttonClassName: this.buttonClassName,
-            contentClassName: this.contentClassName,
-        })
-    }
+		this.wrapper.innerHTML = createTextarea();
+		return this.wrapper;
+	}
+	
+	
+	_createWrapper() {
+		const element = document.createElement('div');
+		element.classList.add('textarea');
+		return element;
+	}
 }

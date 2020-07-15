@@ -17,11 +17,26 @@ export class Tree {
 	 *
 	 * @param {object} data - узлы дерева 
 	 */
-    addNodes(data) {
-        const nodes = data.map( this.createNode );
-		this.nodes.push(...nodes);
+    addNodes(data, position = '/') {
+		let nodes = null;
+		if (data instanceof Array) {
+			nodes = data.map( (node) => this.createNode(node));
+		} else if (data instanceof Object) {
+			nodes = this.createNode(data)
+		}
+		this._add(nodes, position);
 		this.toHTML();
 		console.log(this.nodes);
+		
+	}
+
+	_add(data, position) {
+		if (position === '/') {
+			if (!(data instanceof Array)) {
+				data = [data]
+			}
+			this.nodes = [...this.nodes, ...data];
+		}
 	}
 	
 	/**
@@ -30,8 +45,7 @@ export class Tree {
 	 */
 	createNode(data) { 
 		return new Node({
-			...data, 
-			// root: this.root, 
+			...data
 		})
 	}
 

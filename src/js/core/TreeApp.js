@@ -23,9 +23,7 @@ export class TreeApp {
 	 */
     render() {
         try {
-            this.root.innerHTML = `
-                ${this.textarea.toHTML()}
-			`;
+			this.root.append(this.textarea.toHTML())
 			this.root.append(this.tree.toHTML())
         }
         catch (error) {
